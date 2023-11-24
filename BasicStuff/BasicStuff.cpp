@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <cmath>
 // Version 0.1
 // To Do
 // Make bullets shoot towards mouse
@@ -75,7 +76,7 @@ int main()
             bullets.back().setRadius(5);
             bullets.back().setOrigin(5, 5);
             bullets.back().setPosition(rectangle.getPosition());
-
+            angles.push_back(atan2(dy, dx));
 
             //for (sf::Vector2f i : position)
             //{
@@ -88,7 +89,7 @@ int main()
         for (int i = 0; i < bullets.size(); i++)
         {
             window.draw(bullets[i]);
-            bullets[i].move(0.0f, 1.0f);
+            bullets[i].move(20*cos(angles[i]),20*sin(angles[i]));
         }
         window.display();
     }
