@@ -1,9 +1,11 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <time.h> 
 #include <cmath>
 // Version 0.1
 // To Do
-// Make bullets shoot towards mouse
+// Bullet life -- Maybe use time to determine its death?
+
 
 int main()
 {
@@ -11,9 +13,12 @@ int main()
     sf::RenderWindow window(sf::VideoMode(900, 700), "Box World");
     sf::RectangleShape rectangle;
 
+    sf::Clock Clock;
+
     // Setting the size and origin of the rectangle
     rectangle.setSize(sf::Vector2f(50.0f, 50.0f));
     rectangle.setOrigin(sf::Vector2f(25.0f, 25.0f));
+    rectangle.setPosition(450.0f, 350.0f);
 
     sf::CircleShape circle;
     circle.setFillColor(sf::Color::Red);
@@ -70,7 +75,7 @@ int main()
         }
 
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && Clock.getElapsedTime().asSeconds() > 1.0)
         {
             bullets.push_back(sf::CircleShape());
             bullets.back().setRadius(5);
@@ -78,10 +83,8 @@ int main()
             bullets.back().setPosition(rectangle.getPosition());
             angles.push_back(atan2(dy, dx));
 
-            //for (sf::Vector2f i : position)
-            //{
-            //    std::cout << " Start x" << i.x << " " << " End Y" << i.y;
-            //}
+            Clock.restart();
+
         }
 
         window.clear();
@@ -90,6 +93,9 @@ int main()
         {
             window.draw(bullets[i]);
             bullets[i].move(20*cos(angles[i]),20*sin(angles[i]));
+            //std::cout << "Start" << bullets[i].getPosition().x << "End";
+
+
         }
         window.display();
     }
